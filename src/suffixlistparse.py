@@ -16,6 +16,11 @@ def reverseLevel(tldSequence):
     
     return segments
 
+def idnEncodeSegments(subTld):
+    if subTld == "*":
+        return '[^.]+'
+    return unicode(subTld).encode("idna")
+
 
     
 
@@ -37,7 +42,11 @@ compiledRegex = re.compile('''
 
 content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
+
 for i in iter:
-    reversedTld = reverseLevel(i.group(1))
-    if reversedTld is not None:
+    reversedTldArray = reverseLevel(i.group(1))
+    idnProcessed = [ idnEncodeSegments(j) for j in reversedTldArray]
+    reversedTld = "\.".join(idnProcessed)
+    print reversedTld
+    
         
