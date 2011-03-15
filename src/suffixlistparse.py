@@ -9,6 +9,16 @@ import sys
 import getopt
 
 
+def reverseLevel(tldSequence):
+    segments = tldSequence.split(".")
+    if len(segments) > 1:
+        segments.reverse()
+    
+    return segments
+
+
+    
+
 options = getopt.getopt(sys.argv[1:], 'i:')
 suffixfilename = ''
 for option, value in options[0]:
@@ -16,14 +26,18 @@ for option, value in options[0]:
 
 compiledRegex = re.compile('''
   
-  \A
+  ^
     ( 
-       [^\s\/].*
+       [^\s\/\!].*
     )
+  $
 
-  \z
+''', re.VERBOSE|re.MULTILINE)
 
-''', re.VERBOSE)
 
-print suffixfilename
 content = open(suffixfilename).read()
+iter = re.finditer(compiledRegex, content)
+for i in iter:
+    reversedTld = reverseLevel(i.group(1))
+    if reversedTld is not None:
+        
