@@ -8,6 +8,8 @@ import re
 import sys
 import getopt
 
+import node
+
 
 def reverseLevel(tldSequence):
     segments = tldSequence.split(".")
