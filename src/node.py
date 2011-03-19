@@ -9,8 +9,9 @@ class Node(object):
     classdocs
     '''
 
-
-    def __init__(self, nodeValue):
+    def __init__(self, nodeValue, 
+                 wildcard = "*", replaceWildcard = "[^\.]+", 
+                 separator = ".", replaceSeparator = "\."):
         '''
         Constructor
         '''
@@ -18,6 +19,10 @@ class Node(object):
         self.children = []
         self.__parent = None
         self.__depth = 0
+        self.wildcard = wildcard
+        self.replaceWildcard = replaceWildcard
+        self.separator = separator
+        self.replaceSparator = replaceSeparator
         
     
     def add(self, childNode):
@@ -50,17 +55,23 @@ class Node(object):
             path.append("$")
         return path
              
-           
-        
-    def __str__(self):
+    def getSubTree(self):
         indent = ""
         for i in range(0, self.getDepth()):
             indent += " "
-        prettyPrint = indent + self.__node
+        prettyPrint = indent + self.__str__()
         for child in self.children:
             childString = "\n" + child.__str__()
             prettyPrint += childString
-        return prettyPrint
+        return prettyPrint        
+        
+    def __str__(self):
+        node = self.__node()
+        if node == self.wildcard:
+            return self.replaceWildcard
+        elif node == self.separator:
+            return self.replaceSparator
+        return node
         
         
     # Comparison methods    
