@@ -18,7 +18,13 @@ class Node(tree.Tree):
         
         super(Node).__init__(nodeValue)
      
-     
+    def addBranch(self, newBranch):
+        child, offspring = newBranch[0],newBranch[1:]
+        childNode = Node(child)
+        if not self.children.has_key(child):
+            self.children[child] = [childNode]
+        else:
+            self.children[child].append(childNode)
         
     # Comparison methods    
     def __eq__(self, other):

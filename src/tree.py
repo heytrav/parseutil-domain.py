@@ -19,7 +19,7 @@ class Tree(object):
         '''
         
         self.__node = rootNode
-        self.children = []
+        self.children = {}
         self.__parent = None
         self.__depth = 0
         self.wildcard = wildcard
@@ -34,8 +34,9 @@ class Tree(object):
         childNode.parent(self)
                
     def addBranch(self, newPath):
-        # implementation to follow
-        partitioned = newPath
+        return
+            
+            
         
     
     def parent(self, parentNode):
@@ -71,6 +72,8 @@ class Tree(object):
  
  
     def getNodeValue(self):
+        if self.__node is None:
+            return self.endOfPath
         return self.__node
  
     
