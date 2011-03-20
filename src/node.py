@@ -11,7 +11,8 @@ class Node(object):
 
     def __init__(self, nodeValue, 
                  wildcard = "*", replaceWildcard = "[^\.]+", 
-                 separator = ".", replaceSeparator = "\."):
+                 separator = ".", replaceSeparator = "\.",
+                 endOfPath = "\b"):
         '''
         Constructor
         '''
@@ -23,6 +24,7 @@ class Node(object):
         self.replaceWildcard = replaceWildcard
         self.separator = separator
         self.replaceSparator = replaceSeparator
+        self.endOfPath = endOfPath
         
     
     def add(self, childNode):
@@ -61,12 +63,16 @@ class Node(object):
             indent += " "
         prettyPrint = indent + self.__str__()
         for child in self.children:
-            childString = "\n" + child.__str__()
+            childString = "\n" + child.getSubTree()
             prettyPrint += childString
         return prettyPrint        
         
+    def getNodeValue(self):
+        return self.__node
+    
+    
     def __str__(self):
-        node = self.__node()
+        node = self.__node
         if node == self.wildcard:
             return self.replaceWildcard
         elif node == self.separator:
