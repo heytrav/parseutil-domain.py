@@ -66,7 +66,6 @@ class Tree(object):
         prettyPrint = indent + self.__str__()
         
         for child,offspring in self.children.items():
-           # for grandchild in offspring: 
             subtree = offspring.getSubTree()
             childString = "\n" + subtree
             prettyPrint += childString
