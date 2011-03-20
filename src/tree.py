@@ -33,9 +33,7 @@ class Tree(object):
         childNode.parent(self)
                
     def addBranch(self, newPath): # subclassed
-        return
-            
-            
+        return           
         
     
     def parent(self, parentNode):
@@ -59,15 +57,21 @@ class Tree(object):
             path.append(self.endOfPath)
         return path
              
-    def getSubTree(self):
+    def getSubTree(self, indentFactor = 1):
         indent = ""
-        for i in range(0, self.getDepth()):
+        for i in range(0, self.getDepth() * indentFactor):
             indent += " "
         prettyPrint = indent + self.__str__()
-        
-        for child,offspring in self.children.items():
-            subtree = offspring.getSubTree()
-            childString = "\n" + subtree
+        separator = ""
+        if len(self.children.keys()) > 1:
+            separator = "\n"
+            indentFactor = 1
+        else:
+            indentFactor = 0
+            
+        for child, offspring in self.children.items():
+            subtree = offspring.getSubTree(indentFactor)
+            childString = separator + subtree
             prettyPrint += childString
         return prettyPrint        
  
@@ -82,8 +86,7 @@ class Tree(object):
         if len(self.children) > 0:
             return False
         return True
-      
-                      
+                 
         
     def __str__(self):
         node = self.__node

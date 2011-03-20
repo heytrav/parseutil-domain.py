@@ -23,16 +23,12 @@ class Node(tree.Tree):
         # partition the branch
         child, offspring = newBranch[0],newBranch[1:]
         if not self.children.has_key(child):
-            print "Creating node for " + child
             childNode = Node(child)
             childNode.parent(self)
             self.children[child] = childNode
         else:
             childNode = self.children[child]
-            print "Appending to node " + child
-           # (self.children[child]).append(childNode)
         if len(offspring) > 0:
-            print "Adding subbranch " + offspring + " to node."
             childNode.addBranch(offspring)
         
                     
