@@ -21,7 +21,7 @@ class Node(tree.Tree):
     def addBranch(self, newBranch):
         
         # partition the branch
-        child, offspring = newBranch[0],newBranch[1:]
+        child, offspring = newBranch[0], newBranch[1:]
         if not self.children.has_key(child):
             childNode = Node(child)
             childNode.parent(self)
@@ -31,7 +31,20 @@ class Node(tree.Tree):
         if len(offspring) > 0:
             childNode.addBranch(offspring)
         
-                    
+    def consolidate(self):
+        if self.isLeaf():
+            return self.__str__() # n = 0
+        elif len(self.children.keys()) == 1:
+            iteritems = self.children.iteritems()
+            child, childNode = iteritems.next()
+            consolidatedChild = childNode.consolidate()
+            
+            
+            
+            
+            
+            
+        
         
     def __str__(self):
         node = self.getNodeValue()

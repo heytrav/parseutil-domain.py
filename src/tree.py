@@ -27,6 +27,7 @@ class Tree(object):
         self.separator = separator
         self.replaceSeparator = replaceSeparator
         self.endOfPath = endOfPath
+        self.terminalNodes = []
                 
         
     def add(self, childNode): # not used?
@@ -75,6 +76,9 @@ class Tree(object):
             prettyPrint += childString
         return prettyPrint        
  
+    def consolidate(self):
+        return
+        
  
     def getNodeValue(self):
         if self.__node is None:
@@ -83,7 +87,7 @@ class Tree(object):
  
     
     def isLeaf(self):
-        if len(self.children) > 0:
+        if len(self.children.keys()) > 0:
             return False
         return True
                  
