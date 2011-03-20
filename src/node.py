@@ -79,7 +79,7 @@ class Node(object):
         if node == self.wildcard:
             return self.replaceWildcard
         elif node == self.separator:
-            return self.replaceSparator
+            return self.replaceSeparator
         return node
         
         

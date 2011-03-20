@@ -8,7 +8,7 @@ import re
 import sys
 import getopt
 
-import node
+#import node
 
 
 def reverseLevel(tldSequence):
