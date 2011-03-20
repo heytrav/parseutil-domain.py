@@ -23,13 +23,16 @@ class Node(object):
         self.wildcard = wildcard
         self.replaceWildcard = replaceWildcard
         self.separator = separator
-        self.replaceSparator = replaceSeparator
+        self.replaceSeparator = replaceSeparator
         self.endOfPath = endOfPath
         
     
     def add(self, childNode):
         self.children.append(childNode)
         childNode.parent(self)
+        
+    def addBranch(self, newPath):
+        # implementation to follow
     
     def parent(self, parentNode):
         self.__parent = parentNode
