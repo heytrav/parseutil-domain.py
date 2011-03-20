@@ -57,7 +57,7 @@ class Node(object):
             path.append(self.__node)           
             
         if self.isLeaf():
-            path.append("$")
+            path.append(self.endOfPath)
         return path
              
     def getSubTree(self):
