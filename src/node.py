@@ -33,6 +33,8 @@ class Node(object):
         
     def addBranch(self, newPath):
         # implementation to follow
+        partitioned = newPath
+        
     
     def parent(self, parentNode):
         self.__parent = parentNode
