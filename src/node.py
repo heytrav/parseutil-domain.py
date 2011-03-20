@@ -11,21 +11,43 @@ class Node(tree.Tree):
     classdocs
     '''
 
-    def __init__(self, nodeValue):
+    def __init__(self, nodeValue = None):
         '''
         Constructor
         '''
         
-        super(Node).__init__(nodeValue)
+        super(Node, self).__init__(nodeValue)
      
     def addBranch(self, newBranch):
-        child, offspring = newBranch[0],newBranch[1:]
-        childNode = Node(child)
-        if not self.children.has_key(child):
-            self.children[child] = [childNode]
-        else:
-            self.children[child].append(childNode)
         
+        # partition the branch
+        child, offspring = newBranch[0],newBranch[1:]
+        if not self.children.has_key(child):
+            print "Creating node for " + child
+            childNode = Node(child)
+            childNode.parent(self)
+            self.children[child] = childNode
+        else:
+            childNode = self.children[child]
+            print "Appending to node " + child
+           # (self.children[child]).append(childNode)
+        if len(offspring) > 0:
+            print "Adding subbranch " + offspring + " to node."
+            childNode.addBranch(offspring)
+        
+                    
+        
+    def __str__(self):
+        node = self.getNodeValue()
+        if node is None:
+            return self.endOfPath
+        elif node == self.wildcard:
+            return self.replaceWildcard
+        elif node == self.separator:
+            return self.replaceSeparator
+        return node
+         
+               
     # Comparison methods    
     def __eq__(self, other):
         return self.__node == other.__node

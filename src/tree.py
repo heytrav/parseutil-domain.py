@@ -19,7 +19,7 @@ class Tree(object):
         '''
         
         self.__node = rootNode
-        self.children = {}
+        self.children = {} # dict
         self.__parent = None
         self.__depth = 0
         self.wildcard = wildcard
@@ -29,11 +29,10 @@ class Tree(object):
         self.endOfPath = endOfPath
                 
         
-    def add(self, childNode):
-        self.children.append(childNode)
+    def add(self, childNode): # not used?
         childNode.parent(self)
                
-    def addBranch(self, newPath):
+    def addBranch(self, newPath): # subclassed
         return
             
             
@@ -65,8 +64,11 @@ class Tree(object):
         for i in range(0, self.getDepth()):
             indent += " "
         prettyPrint = indent + self.__str__()
-        for child in self.children:
-            childString = "\n" + child.getSubTree()
+        
+        for child,offspring in self.children.items():
+           # for grandchild in offspring: 
+            subtree = offspring.getSubTree()
+            childString = "\n" + subtree
             prettyPrint += childString
         return prettyPrint        
  
@@ -86,7 +88,9 @@ class Tree(object):
         
     def __str__(self):
         node = self.__node
-        if node == self.wildcard:
+        if node is None:
+            return self.endOfPath
+        elif node == self.wildcard:
             return self.replaceWildcard
         elif node == self.separator:
             return self.replaceSeparator
