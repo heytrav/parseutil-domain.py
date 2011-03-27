@@ -18,6 +18,7 @@ class Node(tree.Tree):
         
         super(Node, self).__init__(nodeValue)
      
+     
     def addBranch(self, newBranch):
         
         # partition the branch
@@ -33,16 +34,43 @@ class Node(tree.Tree):
         
     def consolidate(self):
         if self.isLeaf():
-            return self.__str__() # n = 0
+            print "Returning leaf" 
+            # if we're the end of a leaf, return the value
+            return self
         elif len(self.children.keys()) == 1:
-            iteritems = self.children.iteritems()
-            child, childNode = iteritems.next()
+            # if there is only one child, prepend ourself to their "value"
+            # child may be a leaf, or it could be part of a "stem"
+            # First pop it out of our hash
+            child, childNode = self.children.popitem()
+            
             consolidatedChild = childNode.consolidate()
+            if consolidatedChild is not None:
+                consolidatedValue = consolidatedChild.__str__()
+                newChildNodeString = self.__str__() + consolidatedValue
+                print "Consolidating " + self.__str__() + " and "   + consolidatedValue + " to " + newChildNodeString
+                childNode.setNodeValue(newChildNodeString)
+            
+                return childNode
+  
+        else:
+            newChildren = {}
+            for child, childNode in self.children.iteritems():
+                print "processing child " + child
+                replaceWithNode = childNode.consolidate()
+                if replaceWithNode is not None:
+                    
+                    replacementValue = replaceWithNode.__str__()
+                    print "Resetting child node to " + replacementValue
+                    newChildren[replacementValue] = replaceWithNode
+                    self.add(replaceWithNode)
+                   # print newChildren
+            self.children = newChildren
+            return self
+                
             
             
             
-            
-            
+             
             
         
         

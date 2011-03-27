@@ -40,6 +40,9 @@ class Tree(object):
     def parent(self, parentNode):
         self.__parent = parentNode
         
+    def setNodeValue(self, nodeValue):
+        myNode = self.__node
+        self.__node = nodeValue 
         
     def getDepth(self):
         if self.__parent is None:
