@@ -10,6 +10,7 @@ class Node(tree.Tree):
     '''
     classdocs
     '''
+    leaf_nodes = []
 
     def __init__(self, nodeValue = None):
         '''
@@ -32,6 +33,8 @@ class Node(tree.Tree):
         if len(offspring) > 0:
             childNode.addBranch(offspring)
         
+        
+        
     def consolidate(self):
         if self.isLeaf():
             print "Returning leaf" 
@@ -47,7 +50,9 @@ class Node(tree.Tree):
             if consolidatedChild is not None:
                 consolidatedValue = consolidatedChild.__str__()
                 newChildNodeString = self.__str__() + consolidatedValue
-                print "Consolidating " + self.__str__() + " and "   + consolidatedValue + " to " + newChildNodeString
+                print( "Consolidating " + self.__str__() + 
+                       " and "   + consolidatedValue + " to " 
+                       + newChildNodeString)
                 childNode.setNodeValue(newChildNodeString)
             
                 return childNode
@@ -67,11 +72,7 @@ class Node(tree.Tree):
             self.children = newChildren
             return self
                 
-            
-            
-            
-             
-            
+          
         
         
     def __str__(self):
