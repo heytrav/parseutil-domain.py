@@ -10,7 +10,6 @@ class Node(tree.Tree):
     '''
     classdocs
     '''
-    leaf_nodes = []
 
     def __init__(self, nodeValue = None):
         '''
