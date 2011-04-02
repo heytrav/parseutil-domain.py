@@ -26,8 +26,8 @@ def idnEncodeSegments(subTld):
     try:
         idnEncoded = unicodeTld.encode("idna")
     except UnicodeError, e:
-        print "Error processing " + subTld
-        print e
+        #print "Error processing " + subTld
+        #print e
         return None
     return idnEncoded
 
@@ -71,15 +71,15 @@ for i in iter:
             idnProcessed.append(encoded)
     
     reversedTld = ".".join(idnProcessed)
-    print "Adding branch: " + reversedTld
+#    print "Adding branch: " + reversedTld
     
     if len(reversedTld) > 0:
         node.addBranch(reversedTld)
- #   tldList.append(reversedTld)
+
 
 
 node.consolidate()
-print node.getSubTree()
+#print node.getSubTree()
 
 regexified = regexify(node.getSubDataStructure())
 

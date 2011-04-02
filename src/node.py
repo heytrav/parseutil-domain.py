@@ -39,7 +39,7 @@ class Node(tree.Tree):
         
     def consolidate(self):
         if self.isLeaf():
-            print "Returning leaf" 
+            #print "Returning leaf" 
             # if we're the end of a leaf, return the value
             return self
         elif len(self.children.keys()) == 1:
@@ -52,9 +52,9 @@ class Node(tree.Tree):
             if consolidatedChild is not None:
                 consolidatedValue = consolidatedChild.__str__()
                 newChildNodeString = self.__str__() + consolidatedValue
-                print( "Consolidating " + self.__str__() + 
-                       " and "   + consolidatedValue + " to " 
-                       + newChildNodeString)
+                #print( "Consolidating " + self.__str__() + 
+                #       " and "   + consolidatedValue + " to " 
+                #       + newChildNodeString)
                 childNode.setNodeValue(newChildNodeString)
             
                 return childNode
@@ -62,12 +62,12 @@ class Node(tree.Tree):
         else:
             newChildren = {}
             for child, childNode in self.children.iteritems():
-                print "processing child " + child
+                #print "processing child " + child
                 replaceWithNode = childNode.consolidate()
                 if replaceWithNode is not None:
                     
                     replacementValue = replaceWithNode.__str__()
-                    print "Resetting child node to " + replacementValue
+                    #print "Resetting child node to " + replacementValue
                     newChildren[replacementValue] = replaceWithNode
                     replaceWithNode.storeFlat()
                     self.add(replaceWithNode)
