@@ -61,23 +61,46 @@ class Tree(object):
             path.append(self.endOfPath)
         return path
              
-    def getSubTree(self, indentFactor = 1):
-        indent = ""
+    def getSubTree(self, indentFactor = 1, 
+                   indent = "", 
+                   space = " ", 
+                   multiSeparator = "\n",
+                   frontFrame = "",
+                   backFrame = "",
+                   orSeparator = ""):
         for i in range(0, self.getDepth() * indentFactor):
-            indent += " "
+            indent += space
         prettyPrint = indent + self.__str__()
         separator = ""
         if len(self.children.keys()) > 1:
-            separator = "\n"
+            separator = multiSeparator
             indentFactor = 1
         else:
             indentFactor = 0
             
         for child, offspring in self.children.items():
             subtree = offspring.getSubTree(indentFactor)
-            childString = separator + subtree
-            prettyPrint += childString
-        return prettyPrint        
+            childString = separator +  subtree 
+            prettyPrint +=  childString
+        return  prettyPrint         
+ 
+    def getSubDataStructure(self):
+        
+        if self.isLeaf():
+            return self.getNodeValue()
+        elif len(self.children.keys()) > 0:
+            childNodes = []
+            for childNode in self.children.values():
+                childDataStructure = childNode.getSubDataStructure()
+                childNodes.append(childDataStructure)
+            datastructure = {}
+            datastructure[self.getNodeValue()] = childNodes
+            return datastructure
+            
+        
+        
+            
+            
  
     def consolidate(self):
         return

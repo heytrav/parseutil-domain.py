@@ -8,7 +8,7 @@ import re
 import sys
 import getopt
 
-#import node
+import node
 
 
 def reverseLevel(tldSequence):
@@ -22,14 +22,24 @@ def idnEncodeSegments(subTld):
  
     unicodeTld = unicode(subTld,"utf8")
     idnEncoded = u''
+    
     try:
         idnEncoded = unicodeTld.encode("idna")
     except UnicodeError, e:
         print "Error processing " + subTld
         print e
+        return None
     return idnEncoded
 
-        
+
+def regexify(data):
+    if isinstance(data, dict):
+        iter = data.iteritems()
+        k, childNodes = iter.next()
+        joinedString = "|".join([regexify(i) for i in childNodes])
+        return k + "(?:" + joinedString + ")"
+    else:
+        return data
     
 
 options = getopt.getopt(sys.argv[1:], 'i:')
@@ -50,14 +60,30 @@ compiledRegex = re.compile('''
 content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
 
+node = node.Node()
 #tldList = []
 for i in iter:
     reversedTldArray = reverseLevel( i.group(1) )
-    idnProcessed = [ idnEncodeSegments(j) for j in reversedTldArray]
+    idnProcessed = []
+    for j in reversedTldArray:
+        encoded = idnEncodeSegments(j)
+        if encoded is not None:
+            idnProcessed.append(encoded)
+    
     reversedTld = ".".join(idnProcessed)
-    print reversedTld
+    print "Adding branch: " + reversedTld
+    
+    if len(reversedTld) > 0:
+        node.addBranch(reversedTld)
  #   tldList.append(reversedTld)
 
+
+node.consolidate()
+print node.getSubTree()
+
+regexified = regexify(node.getSubDataStructure())
+
+print regexified
 
 
 

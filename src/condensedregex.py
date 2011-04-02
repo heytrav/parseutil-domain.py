@@ -10,13 +10,10 @@ class CondensedRegex(object):
     '''
 
 
-    def __init__(self):
+    def __init__(self, node):
         '''
         CondensedRegex()
         '''
         
-        self.characterStack = {}
-        self.maxLength = 0
+        self.__node = node
     
-    def add(self, characters):
-        self.characterStack.

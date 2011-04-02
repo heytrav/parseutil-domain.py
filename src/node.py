@@ -10,6 +10,8 @@ class Node(tree.Tree):
     '''
     classdocs
     '''
+    nodeKeys = {}
+    nodeNumber = 0
 
     def __init__(self, nodeValue = None):
         '''
@@ -17,6 +19,7 @@ class Node(tree.Tree):
         '''
         
         super(Node, self).__init__(nodeValue)
+ 
      
      
     def addBranch(self, newBranch):
@@ -66,13 +69,21 @@ class Node(tree.Tree):
                     replacementValue = replaceWithNode.__str__()
                     print "Resetting child node to " + replacementValue
                     newChildren[replacementValue] = replaceWithNode
+                    replaceWithNode.storeFlat()
                     self.add(replaceWithNode)
-                   # print newChildren
+                    # print newChildren
             self.children = newChildren
             return self
                 
           
-        
+    def storeFlat(self):
+        Node.nodeNumber += 1
+        self.__thisNodeNumber = Node.nodeNumber
+        if not Node.nodeKeys.has_key(self.__str__()):
+            Node.nodeKeys[self.__str__()] = [self]
+        else:
+            Node.nodeKeys[self.__str__()].append(self)
+          
         
     def __str__(self):
         node = self.getNodeValue()
