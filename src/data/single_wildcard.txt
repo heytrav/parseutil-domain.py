@@ -1,0 +1,2 @@
+*.wakayama.jp
+*.toyama.jp

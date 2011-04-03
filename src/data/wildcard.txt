@@ -1,0 +1,8 @@
+mz.*
+*.tokyo.jp
+*.tottori.jp
+*.toyama.jp
+*.wakayama.jp
+*.yamagata.jp
+*.yamaguchi.jp
+*.yamanashi.jp

@@ -50,7 +50,7 @@ for option, value in options[0]:
 compiledRegex = re.compile('''
   ^
     ( 
-       [^\s\/\!].*
+       [^\s\/\!]+
     )
   $
 ''', re.VERBOSE|re.MULTILINE
