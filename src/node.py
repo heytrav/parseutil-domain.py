@@ -38,6 +38,7 @@ class Node(tree.Tree):
         
         
     def consolidate(self):
+        #print "processing node: " + self.__str__()
         if self.isLeaf():
             #print "Returning leaf" 
             # if we're the end of a leaf, return the value
@@ -48,7 +49,10 @@ class Node(tree.Tree):
             # First pop it out of our hash
             child, childNode = self.children.popitem()
             
+        
+            #print "childNode keys: ", childNode.children.keys()
             consolidatedChild = childNode.consolidate()
+            #print "consolidated child keys: ", consolidatedChild.children.keys()
             if consolidatedChild is not None:
                 consolidatedValue = consolidatedChild.__str__()
                 newChildNodeString = self.__str__() + consolidatedValue
@@ -56,10 +60,14 @@ class Node(tree.Tree):
                 #       " and "   + consolidatedValue + " to " 
                 #       + newChildNodeString)
                 childNode.setNodeValue(newChildNodeString)
-            
+                childNode.children = consolidatedChild.children
+                #print "single child: " + newChildNodeString
+                
+                #print childNode.children.keys()
                 return childNode
   
         else:
+            #print "Forked"
             newChildren = {}
             for child, childNode in self.children.iteritems():
                 #print "processing child " + child
@@ -71,8 +79,11 @@ class Node(tree.Tree):
                     newChildren[replacementValue] = replaceWithNode
                     replaceWithNode.storeFlat()
                     self.add(replaceWithNode)
-                    # print newChildren
+                    #print newChildren
+               
             self.children = newChildren
+            keys = self.children.keys()
+            #print keys
             return self
                 
           

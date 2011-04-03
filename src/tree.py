@@ -87,14 +87,14 @@ class Tree(object):
     def getSubDataStructure(self):
         
         if self.isLeaf():
-            return self.getNodeValue()
+            return self.__str__()
         elif len(self.children.keys()) > 0:
             childNodes = []
             for childNode in self.children.values():
                 childDataStructure = childNode.getSubDataStructure()
                 childNodes.append(childDataStructure)
             datastructure = {}
-            datastructure[self.getNodeValue()] = childNodes
+            datastructure[self.__str__()] = childNodes
             return datastructure
             
         

@@ -77,13 +77,14 @@ for i in iter:
         node.addBranch(reversedTld)
 
 
-
-node.consolidate()
 #print node.getSubTree()
+consolidated = node.consolidate()
+print consolidated.getSubTree()
 
-regexified = regexify(node.getSubDataStructure())
-
+regexified = regexify(consolidated.getSubDataStructure())
 print regexified
+tldregex = re.compile(regexified)
+
 
 
 
