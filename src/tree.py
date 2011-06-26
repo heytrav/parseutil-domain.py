@@ -11,8 +11,10 @@ class Tree(object):
 
 
     def __init__(self, rootNode = None, 
-                 wildcard = "*", replaceWildcard = "[^\.]+", 
-                 separator = ".", replaceSeparator = "\.",
+                 wildcard = "*", 
+                 replaceWildcard = None, 
+                 separator = None, 
+                 replaceSeparator = None,
                  endOfPath = "\b"):
         '''
         Some docs
