@@ -13,12 +13,19 @@ class Node(tree.Tree):
     nodeKeys = {}
     nodeNumber = 0
 
-    def __init__(self, nodeValue = None):
+    def __init__(self,                 
+                  wildcard = "*", 
+                 endOfPath = "\b",
+                 rootNode = None,
+                 replaceWildcard = None, 
+                 separator = None, 
+                 replaceSeparator = None,
+                 nodeValue = None):
         '''
         Constructor
         '''
         
-        super(Node, self).__init__(nodeValue)
+        super(Node, self).__init__(wildcard, endOfPath, rootNode, replaceWildcard, separator, replaceSeparator, nodeValue)
  
      
      

@@ -60,7 +60,11 @@ compiledRegex = re.compile('''
 content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
 
-node = node.Node()
+node = node.Node(
+                  replaceWildcard = "[^\.]+", 
+                 separator = ".", 
+                 replaceSeparator = "\."
+                 )
 #tldList = []
 for i in iter:
     reversedTldArray = reverseLevel( i.group(1) )
