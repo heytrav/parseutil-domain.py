@@ -13,12 +13,28 @@ class Node(tree.Tree):
     nodeKeys = {}
     nodeNumber = 0
 
-    def __init__(self, nodeValue = None):
+    def __init__(self, 
+                 nodeValue = None,
+                 wildcard = None, 
+                 replaceWildcard = None, 
+                 separator = None,
+                 replaceSeparator = None,
+                 endOfPath = None, 
+                 
+                 ):
         '''
         Constructor
         '''
         
-        super(Node, self).__init__(nodeValue)
+        super(Node, self).__init__(
+                                   nodeValue,
+                                   wildcard, 
+                                   replaceWildcard , 
+                                   separator , 
+                                   replaceSeparator ,
+                                   endOfPath ,
+                                   
+                                    )
  
      
      
@@ -27,7 +43,13 @@ class Node(tree.Tree):
         # partition the branch
         child, offspring = newBranch[0], newBranch[1:]
         if not self.children.has_key(child):
-            childNode = Node(child)
+            childNode = Node(child,
+                              self.getWildcard(), 
+                              self.getReplaceWildcard(), 
+                              self.getSeparator(), 
+                              self.getReplaceSeparator(),
+                              self.getEndOfPath()
+                             )
             childNode.parent(self)
             self.children[child] = childNode
         else:
@@ -56,14 +78,10 @@ class Node(tree.Tree):
             if consolidatedChild is not None:
                 consolidatedValue = consolidatedChild.__str__()
                 newChildNodeString = self.__str__() + consolidatedValue
-                #print( "Consolidating " + self.__str__() + 
-                #       " and "   + consolidatedValue + " to " 
-                #       + newChildNodeString)
+                
                 childNode.setNodeValue(newChildNodeString)
                 childNode.children = consolidatedChild.children
-                #print "single child: " + newChildNodeString
-                
-                #print childNode.children.keys()
+              
                 return childNode
   
         else:
@@ -96,15 +114,15 @@ class Node(tree.Tree):
             Node.nodeKeys[self.__str__()].append(self)
           
         
-    def __str__(self):
-        node = self.getNodeValue()
-        if node is None:
-            return self.endOfPath
-        elif node == self.wildcard:
-            return self.replaceWildcard
-        elif node == self.separator:
-            return self.replaceSeparator
-        return node
+#    def __str__(self):
+#        node = self.getNodeValue()
+#        if node is None:
+#            return self.endOfPath
+#        elif node == self.wildcard:
+#            return self.replaceWildcard
+#        elif node == self.separator:
+#            return self.replaceSeparator
+#        return node
          
                
     # Comparison methods    

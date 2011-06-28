@@ -50,7 +50,7 @@ for option, value in options[0]:
 compiledRegex = re.compile('''
   ^
     ( 
-       [^\s\/\!]+
+       [^\s\/\!][^\s]+
     )
   $
 ''', re.VERBOSE|re.MULTILINE
@@ -60,7 +60,13 @@ compiledRegex = re.compile('''
 content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
 
-node = node.Node()
+node = node.Node(
+                 wildcard = "*", 
+                 replaceWildcard = "[^\.]+", 
+                 separator = ".", 
+                 replaceSeparator = "\.",
+                 endOfPath = "\b"
+                 )
 #tldList = []
 for i in iter:
     reversedTldArray = reverseLevel( i.group(1) )
@@ -71,7 +77,6 @@ for i in iter:
             idnProcessed.append(encoded)
     
     reversedTld = ".".join(idnProcessed)
-#    print "Adding branch: " + reversedTld
     
     if len(reversedTld) > 0:
         node.addBranch(reversedTld)
@@ -79,7 +84,7 @@ for i in iter:
 
 #print node.getSubTree()
 consolidated = node.consolidate()
-print consolidated.getSubTree()
+#print consolidated.getSubTree()
 
 regexified = regexify(consolidated.getSubDataStructure())
 print regexified

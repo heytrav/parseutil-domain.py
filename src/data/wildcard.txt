@@ -1,4 +1,4 @@
-mz.*
+*.mz
 *.tokyo.jp
 *.tottori.jp
 *.toyama.jp

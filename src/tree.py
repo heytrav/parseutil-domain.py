@@ -10,10 +10,14 @@ class Tree(object):
     '''
 
 
-    def __init__(self, rootNode = None, 
-                 wildcard = "*", replaceWildcard = "[^\.]+", 
-                 separator = ".", replaceSeparator = "\.",
-                 endOfPath = "\b"):
+    def __init__(self, 
+                  rootNode       = None,
+                 wildcard =   None, 
+                 replaceWildcard = None, 
+                 separator = None, 
+                 replaceSeparator = None,
+                 endOfPath = None, 
+                ):
         '''
         Some docs
         '''
@@ -22,11 +26,12 @@ class Tree(object):
         self.children = {} # dict
         self.__parent = None
         self.__depth = 0
-        self.wildcard = wildcard
-        self.replaceWildcard = replaceWildcard
-        self.separator = separator
-        self.replaceSeparator = replaceSeparator
-        self.endOfPath = endOfPath
+        self.__wildcard = wildcard
+        self.__replaceWildcard = replaceWildcard
+        
+        self.__separator = separator
+        self.__replaceSeparator = replaceSeparator
+        self.__endOfPath = endOfPath
         self.terminalNodes = []
                 
         
@@ -36,6 +41,20 @@ class Tree(object):
     def addBranch(self, newPath): # subclassed
         return           
         
+    def getWildcard(self):
+        return self.__wildcard
+    
+    def getReplaceWildcard(self):
+        return self.__replaceWildcard
+    
+    def getSeparator(self):
+        return self.__separator
+    
+    def getReplaceSeparator(self):
+        return self.__replaceSeparator
+    
+    def getEndOfPath(self):
+        return self.__endOfPath
     
     def parent(self, parentNode):
         self.__parent = parentNode
@@ -121,10 +140,10 @@ class Tree(object):
     def __str__(self):
         node = self.__node
         if node is None:
-            return self.endOfPath
-        elif node == self.wildcard:
-            return self.replaceWildcard
-        elif node == self.separator:
-            return self.replaceSeparator
+            return self.getEndOfPath()
+        elif node == self.getWildcard():
+            return self.getReplaceWildcard()
+        elif node == self.getSeparator():
+            return self.getReplaceSeparator()
         return node
   
