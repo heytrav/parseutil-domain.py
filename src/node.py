@@ -32,8 +32,7 @@ class Node(tree.Tree):
                                    replaceWildcard , 
                                    separator , 
                                    replaceSeparator ,
-                                   endOfPath ,
-                                   
+                                   endOfPath 
                                     )
  
      
@@ -62,7 +61,7 @@ class Node(tree.Tree):
     def consolidate(self):
         #print "processing node: " + self.__str__()
         if self.isLeaf():
-            #print "Returning leaf" 
+             
             # if we're the end of a leaf, return the value
             return self
         elif len(self.children.keys()) == 1:
@@ -90,17 +89,16 @@ class Node(tree.Tree):
             for child, childNode in self.children.iteritems():
                 #print "processing child " + child
                 replaceWithNode = childNode.consolidate()
-                if replaceWithNode is not None:
+                #if replaceWithNode is not None:
                     
-                    replacementValue = replaceWithNode.__str__()
-                    #print "Resetting child node to " + replacementValue
-                    newChildren[replacementValue] = replaceWithNode
-                    replaceWithNode.storeFlat()
-                    self.add(replaceWithNode)
-                    #print newChildren
+                replacementValue = replaceWithNode.__str__()
+                #print "Resetting child node to " + replacementValue
+                newChildren[replacementValue] = replaceWithNode
+                replaceWithNode.storeFlat()
+                self.add(replaceWithNode)
+                #print newChildren
                
             self.children = newChildren
-            keys = self.children.keys()
             #print keys
             return self
                 

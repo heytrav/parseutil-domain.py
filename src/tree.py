@@ -115,10 +115,7 @@ class Tree(object):
             datastructure = {}
             datastructure[self.__str__()] = childNodes
             return datastructure
-            
-        
-        
-            
+                       
             
  
     def consolidate(self):
