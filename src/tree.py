@@ -11,7 +11,7 @@ class Tree(object):
 
 
     def __init__(self, 
-                  rootNode       = None,
+                rootNode       = None,
                  wildcard =   None, 
                  replaceWildcard = None, 
                  separator = None, 

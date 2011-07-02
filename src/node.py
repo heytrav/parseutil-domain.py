@@ -1,145 +1,34 @@
 '''
-Created on Mar 16, 2011
+Created on Jun 29, 2011
 
 @author: holton
 '''
+import unittest
 
-import tree
+from treefix import node
 
-class Node(tree.Tree):
-    '''
-    classdocs
-    '''
-    nodeKeys = {}
-    nodeNumber = 0
 
-    def __init__(self, 
-                 nodeValue = None,
-                 wildcard = None, 
-                 replaceWildcard = None, 
-                 separator = None,
-                 replaceSeparator = None,
-                 endOfPath = None, 
-                 
-                 ):
-        '''
-        Constructor
-        '''
-        
-        super(Node, self).__init__(
-                                   nodeValue,
-                                   wildcard, 
-                                   replaceWildcard , 
-                                   separator , 
-                                   replaceSeparator ,
-                                   endOfPath 
-                                    )
- 
-     
-     
-    def addBranch(self, newBranch):
-        
-        # partition the branch
-        child, offspring = newBranch[0], newBranch[1:]
-        if not self.children.has_key(child):
-            childNode = Node(child,
-                              self.getWildcard(), 
-                              self.getReplaceWildcard(), 
-                              self.getSeparator(), 
-                              self.getReplaceSeparator(),
-                              self.getEndOfPath()
-                             )
-            childNode.parent(self)
-            self.children[child] = childNode
-        else:
-            childNode = self.children[child]
-        if len(offspring) > 0:
-            childNode.addBranch(offspring)
-        
-        
-        
-    def consolidate(self):
-        #print "processing node: " + self.__str__()
-        if self.isLeaf():
-             
-            # if we're the end of a leaf, return the value
-            return self
-        elif len(self.children.keys()) == 1:
-            # if there is only one child, prepend ourself to their "value"
-            # child may be a leaf, or it could be part of a "stem"
-            # First pop it out of our hash
-            child, childNode = self.children.popitem()
-            
-        
-            #print "childNode keys: ", childNode.children.keys()
-            consolidatedChild = childNode.consolidate()
-            #print "consolidated child keys: ", consolidatedChild.children.keys()
-            if consolidatedChild is not None:
-                consolidatedValue = consolidatedChild.__str__()
-                newChildNodeString = self.__str__() + consolidatedValue
-                
-                childNode.setNodeValue(newChildNodeString)
-                childNode.children = consolidatedChild.children
-              
-                return childNode
-  
-        else:
-            #print "Forked"
-            newChildren = {}
-            for child, childNode in self.children.iteritems():
-                #print "processing child " + child
-                replaceWithNode = childNode.consolidate()
-                #if replaceWithNode is not None:
-                    
-                replacementValue = replaceWithNode.__str__()
-                #print "Resetting child node to " + replacementValue
-                newChildren[replacementValue] = replaceWithNode
-                replaceWithNode.storeFlat()
-                self.add(replaceWithNode)
-                #print newChildren
-               
-            self.children = newChildren
-            #print keys
-            return self
-                
-          
-    def storeFlat(self):
-        Node.nodeNumber += 1
-        self.__thisNodeNumber = Node.nodeNumber
-        if not Node.nodeKeys.has_key(self.__str__()):
-            Node.nodeKeys[self.__str__()] = [self]
-        else:
-            Node.nodeKeys[self.__str__()].append(self)
-          
-        
-#    def __str__(self):
-#        node = self.getNodeValue()
-#        if node is None:
-#            return self.endOfPath
-#        elif node == self.wildcard:
-#            return self.replaceWildcard
-#        elif node == self.separator:
-#            return self.replaceSeparator
-#        return node
-         
-               
-    # Comparison methods    
-    def __eq__(self, other):
-        return self.__node == other.__node
-    
-    def __ne__(self, other):
-        return self.__node != other.__node
-    
-    def __lt__(self,other):
-        return self.__node < other.__node
-    
-    def __gt__(self, other):
-        return self.__node > other.__node
-    
-    def __le__(self,other):
-        return self.__node <= other.__node
-    
-    def __ge__(self, other):
-        return self.__node >= other.__node
-    
-    
+class Test(unittest.TestCase):
+
+
+    def setUp(self):
+        pass
+
+
+    def tearDown(self):
+        pass
+
+
+    def testNodeComparison(self):
+        node1 = node.Node()
+        node2 = node.Node()
+        node1.addBranch("abcdefghi")
+        node1.consolidate()
+        node2.addBranch("abcdefghi")
+        node2.consolidate()
+        self.assertEqual(node1, node2, "Nodes equal.")
+
+
+if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testNodeComparison']
+    unittest.main()

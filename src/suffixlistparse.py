@@ -8,7 +8,7 @@ import re
 import sys
 import getopt
 
-import node
+from treefix import node
 
 
 def reverseLevel(tldSequence):
@@ -42,10 +42,14 @@ def regexify(data):
         return data
     
 
-options = getopt.getopt(sys.argv[1:], 'i:')
+options = getopt.getopt(sys.argv[1:], 'i:c')
 suffixfilename = ''
+compression = False
 for option, value in options[0]:
     if option == '-i': suffixfilename = value
+    if option == '-c' : 
+        compression = True
+        print "Setting compression to: " , compression
 
 compiledRegex = re.compile('''
   ^
@@ -65,9 +69,10 @@ node = node.Node(
                  replaceWildcard = "[^\.]+", 
                  separator = ".", 
                  replaceSeparator = "\.",
-                 endOfPath = "\b"
+                 endOfPath = "\b",
+                 applyCompression = compression
                  )
-#tldList = []
+
 for i in iter:
     reversedTldArray = reverseLevel( i.group(1) )
     idnProcessed = []
@@ -82,8 +87,9 @@ for i in iter:
         node.addBranch(reversedTld)
 
 
-#print node.getSubTree()
+
 consolidated = node.consolidate()
+
 #print consolidated.getSubTree()
 
 regexified = regexify(consolidated.getSubDataStructure())
