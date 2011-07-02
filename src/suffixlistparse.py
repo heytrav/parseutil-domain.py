@@ -90,10 +90,10 @@ for i in iter:
 
 consolidated = node.consolidate()
 
-#print consolidated.getSubTree()
+print consolidated.getSubTree()
 
 regexified = regexify(consolidated.getSubDataStructure())
-print regexified
+#print regexified
 tldregex = re.compile(regexified)
 
 
