@@ -21,6 +21,7 @@ class Node(object):
                  separator = None,
                  replaceSeparator = None,
                  applyCompression = None,
+                 escapeChars = None,
                  endOfPath = ""
                  ):
         '''
@@ -46,6 +47,7 @@ class Node(object):
         self.__endOfPath = endOfPath
         self.__commonSubtrees = dict()
         self.__applyCompression = applyCompression
+        self.__escapeChars = escapeChars
         self.terminalNodes = []
 
      
@@ -76,7 +78,6 @@ class Node(object):
         
         if self.isLeaf():
             # if we're the end of a leaf, return the value
-            
             return self
         
         elif len(self.children.keys()) == 1:
@@ -92,6 +93,7 @@ class Node(object):
                 consolidatedValue = consolidatedChild.__str__()
                 newChildNodeString = self.__str__() + consolidatedValue
                 if hasSiblings and self.__parent is not None:
+                    # store this so we can consolidate parents later
                     self.__parent.appendCommonSubtree(
                                                       consolidatedChild, 
                                                       self.__str__()
@@ -113,10 +115,12 @@ class Node(object):
             if self.__applyCompression == True and len(self.__commonSubtrees) < len(self.children):
                 # some of the direct children have identical offspring
                 
-                for commonSubTree, commonKey in self.__commonSubtrees.iteritems():
+                for commonKey in self.getCommonSubtrees().itervalues():
                     if len(commonKey) > 1:
                         commonKeySet = []
                         for nodeDict in commonKey:
+                            # for each of the common keys, pop combined node 
+                            # back out
                             charValue = nodeDict['currentNode']
                             commonKeySet.append(charValue)
                             commonChild = nodeDict['subNodeRoot']
@@ -151,6 +155,9 @@ class Node(object):
                                                     )  
         
         
+    def getCommonSubtrees(self):
+        return self.__commonSubtrees
+    
         
     def getCommonSubtree(self, subtreeString):
         return self.__commonSubtrees[subtreeString]
@@ -240,7 +247,6 @@ class Node(object):
             return self.__endOfPath
         elif isinstance(node, list):
             combined = "".join(node)
-            
             return "[%s]" % combined
         elif node == self.__wildcard:
             return self.__replaceWildcard

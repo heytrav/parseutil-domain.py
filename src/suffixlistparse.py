@@ -31,15 +31,31 @@ def idnEncodeSegments(subTld):
         return None
     return idnEncoded
 
-
-def regexify(data):
+def replaceCharacters(data, replaceChars = None):
+    if replaceChars is not None:
+        for element in replaceChars:
+            replKeys = element.keys()
+            for replKey in replKeys:
+                val = element.get(replKey)
+                newString = data.replace(replKey, val)
+                data = newString
+      
+    return data
+    
+    
+def regexify(
+             data,
+             replaceChars = None,
+             ):
     if isinstance(data, dict):
         iter = data.iteritems()
         k, childNodes = iter.next()
-        joinedString = "|".join([regexify(i) for i in childNodes])
-        return k + "(?:" + joinedString + ")"
-    else:
-        return data
+        joinedString = "|".join([regexify(i,replaceChars) for i in childNodes])
+        
+        return replaceCharacters(k,replaceChars) + "(?:" + joinedString + ")"
+    elif isinstance(data, str):
+        return replaceCharacters(data,replaceChars)
+    
     
 
 options = getopt.getopt(sys.argv[1:], 'i:c')
@@ -65,11 +81,11 @@ content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
 
 node = node.Node(
-                 wildcard = "*", 
-                 replaceWildcard = "[^\.]+", 
-                 separator = ".", 
-                 replaceSeparator = "\.",
-                 endOfPath = "\b",
+#                 wildcard = "*", 
+#                 replaceWildcard = "[^\.]+", 
+#                 separator = ".", 
+#                 replaceSeparator = "\.",
+#                 endOfPath = "\b",
                  applyCompression = compression
                  )
 
@@ -92,9 +108,12 @@ consolidated = node.consolidate()
 
 print consolidated.getSubTree()
 
-regexified = regexify(consolidated.getSubDataStructure())
-#print regexified
-tldregex = re.compile(regexified)
+regexified = regexify(
+                      consolidated.getSubDataStructure(),
+                       [{".":"\."},{"*":"[^\.]+"}]
+                      )
+print regexified
+#tldregex = re.compile(regexified)
 
 
 
