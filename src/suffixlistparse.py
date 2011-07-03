@@ -81,11 +81,6 @@ content = open(suffixfilename).read()
 iter = re.finditer(compiledRegex, content)
 
 node = node.Node(
-#                 wildcard = "*", 
-#                 replaceWildcard = "[^\.]+", 
-#                 separator = ".", 
-#                 replaceSeparator = "\.",
-#                 endOfPath = "\b",
                  applyCompression = compression
                  )
 
