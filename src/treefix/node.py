@@ -63,6 +63,7 @@ class Node(object):
                               self.__replaceSeparator,
                               self.__applyCompression,
                               self.__endOfPath,
+                              
                              
                              )
             childNode.parent(self)
@@ -125,14 +126,16 @@ class Node(object):
                             commonKeySet.append(charValue)
                             commonChild = nodeDict['subNodeRoot']
                             newChildren.pop(charValue + commonChild)
-                        multiKeyNode = Node(commonKeySet)
+                        multiKeyNode = Node(
+                                            commonKeySet,
+                                            applyCompression = self.__applyCompression)
                         commonChildNode = Node(commonChild)
                         multiKeyNode.add(commonChildNode)
                         commonChildValue = commonChildNode.__str__()
                         multiKeyNode.children[commonChildValue] = commonChildNode
                         #commonKeyString = self.compactSetString(commonKeySet)
                         commonKeyString = "".join(commonKeySet)
-                        print "got common keys: " , commonKeyString
+
                         newChildren[commonKeyString] = multiKeyNode
                         self.add(multiKeyNode)
                     
@@ -145,33 +148,28 @@ class Node(object):
         
     def compactSetString(self,characterSet):
         sortedChars = sorted(characterSet)
-        print "Got keys: ", ", ".join(sortedChars)
         if len(sortedChars) == 2:
             return "".join(sortedChars)
         plusOneIndexes = []
         compactList = []
         nextChar = None
         for index in range(0, len(sortedChars) ):
-            print "index: " , index
             currChar = sortedChars[ index ]
-            print "curr char " + currChar
             if ( index + 1) < len(sortedChars):
                 nextChar = sortedChars[ index + 1 ]
-                print "next char " + nextChar
+           
             else:
                 nextChar = None
         
-            print "length of index array: " , len(plusOneIndexes)     
+            
             if  nextChar != None and ord(nextChar) - ord(currChar) == 1:
-                print "difference is 1 between " + currChar + " and " + nextChar
+                
                 plusOneIndexes.append(index)
             
             elif len(plusOneIndexes) > 1:
                 difference = len(plusOneIndexes)
                 firstIndex = plusOneIndexes[0] 
-                print "first index: ", firstIndex
                 lastIndex = plusOneIndexes[-1] + 1
-                print "last index: ", lastIndex
                 firstChar = sortedChars[firstIndex]
                 lastChar = sortedChars[lastIndex]
                 joinedCharSet = "-".join([firstChar, lastChar])
