@@ -4,6 +4,8 @@ Created on Jul 29, 2011
 @author: holton
 '''
 
+import re
+
 from . import  node
 
 
@@ -47,18 +49,18 @@ class RegexNode(node.Node):
             if isinstance(data, dict):
                 iter = data.iteritems()
                 k, childNodes = iter.next()
-                joinedString = "|".join([self.recursiveRegexify(i) for i in childNodes])
+                joinedString = "|".join([recursiveRegexify(i) for i in childNodes])
         
                 return self.replaceCharacters(k) + "(?:" + joinedString + ")"
             elif isinstance(data, str):
                 return self.replaceCharacters(data) 
         consolidated = self.consolidate()
         regexed = recursiveRegexify(consolidated.getSubDataStructure())     
-        return regexed
+        return re.compile(regexed)
          
          
          
-    def replaceCharacters(self,data):
+    def replaceCharacters(self, data):
         if self.__replaceCharacters is not None:
             for element in self.__replaceCharacters:
                 replKeys = element.keys()
