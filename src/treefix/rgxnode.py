@@ -15,10 +15,10 @@ class RegexNode(node.Node):
     '''
 
 
-    def __init__(self , 
+    def __init__(self ,
                  nodeValue = None,
-                 wildcard = None, 
-                 replaceWildcard = None, 
+                 wildcard = None,
+                 replaceWildcard = None,
                  separator = None,
                  replaceSeparator = None,
                  applyCompression = None,
@@ -29,37 +29,37 @@ class RegexNode(node.Node):
         '''
         RegexNode
         '''
-        super(RegexNode,self).__init__(  
-                                       nodeValue ,  
-                                       wildcard ,  
-                                       replaceWildcard,    
+        super(RegexNode,self).__init__(
+                                       nodeValue ,
+                                       wildcard ,
+                                       replaceWildcard,
                                        separator ,
-                                       replaceSeparator ,  
-                                       applyCompression , 
+                                       replaceSeparator ,
+                                       applyCompression ,
                                        escapeChars ,
                                        endOfPath ,
                                        )
-        
+
         self.__replaceCharacters = replaceChars
-        
-        
-    
+
+
+
     def regexify(self):
         def recursiveRegexify(data):
             if isinstance(data, dict):
                 iter = data.iteritems()
                 k, childNodes = iter.next()
                 joinedString = "|".join([recursiveRegexify(i) for i in childNodes])
-        
+
                 return self.replaceCharacters(k) + "(?:" + joinedString + ")"
             elif isinstance(data, str):
-                return self.replaceCharacters(data) 
+                return self.replaceCharacters(data)
         consolidated = self.consolidate()
-        regexed = recursiveRegexify(consolidated.getSubDataStructure())     
+        regexed = recursiveRegexify(consolidated.getSubDataStructure())
         return re.compile(regexed)
-         
-         
-         
+
+
+
     def replaceCharacters(self, data):
         if self.__replaceCharacters is not None:
             for element in self.__replaceCharacters:
@@ -68,6 +68,6 @@ class RegexNode(node.Node):
                     val = element.get(replKey)
                     newString = data.replace(replKey, val)
                     data = newString
-      
+
         return data
-    
+

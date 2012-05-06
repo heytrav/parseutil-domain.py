@@ -4,7 +4,7 @@ Created on Mar 13, 2011
 @author: holton
 '''
 
-import re 
+import re
 import sys
 import getopt
 
@@ -15,14 +15,14 @@ def reverseLevel(tldSequence):
     segments = tldSequence.split(".")
     if len(segments) > 1:
         segments.reverse()
-    
+
     return segments
 
 def idnEncodeSegments(subTld):
- 
+
     unicodeTld = unicode(subTld,"utf8")
     idnEncoded = u''
-    
+
     try:
         idnEncoded = unicodeTld.encode("idna")
     except UnicodeError, e:
@@ -39,10 +39,10 @@ def replaceCharacters(data, replaceChars = None):
                 val = element.get(replKey)
                 newString = data.replace(replKey, val)
                 data = newString
-      
+
     return data
-    
-    
+
+
 def regexify(
              data,
              replaceChars = None,
@@ -51,25 +51,25 @@ def regexify(
         iter = data.iteritems()
         k, childNodes = iter.next()
         joinedString = "|".join([regexify(i,replaceChars) for i in childNodes])
-        
+
         return replaceCharacters(k,replaceChars) + "(?:" + joinedString + ")"
     elif isinstance(data, str):
         return replaceCharacters(data,replaceChars)
-    
-    
+
+
 
 options = getopt.getopt(sys.argv[1:], 'i:c')
 suffixfilename = ''
 compression = False
 for option, value in options[0]:
     if option == '-i': suffixfilename = value
-    if option == '-c' : 
+    if option == '-c' :
         compression = True
         print "Setting compression to: " , compression
 
 compiledRegex = re.compile('''
   ^
-    ( 
+    (
        [^\s\/\!][^\s]+
     )
   $
@@ -91,9 +91,9 @@ for i in iter:
         encoded = idnEncodeSegments(j)
         if encoded is not None:
             idnProcessed.append(encoded)
-    
+
     reversedTld = ".".join(idnProcessed)
-    
+
     if len(reversedTld) > 0:
         node.addBranch(reversedTld)
 
@@ -115,5 +115,5 @@ print regexified
 
 
 
-    
-        
+
+
