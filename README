@@ -1,3 +1,7 @@
-parseutil-domain for Python
+Experimenting with Python
 
-A bit of a learning excercise to become aquainted with Python.
+I originally wanted to create a Python version of my Perl module for parsing
+domains/tlds. Since I couldn't find a Python library for creating the compiled
+regular expressions like Regexp::Assemble::Compress does, this has turned into
+more of an exercise for generating regex trees from a set of strings. Need to
+split this up into a separate project.
