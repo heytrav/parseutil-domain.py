@@ -8,7 +8,7 @@ Created on Mar 16, 2011
 
 class Node(object):
     '''
-    Represent tree like structures.
+    Represent node like structures.
     '''
     parentSets = {}
     subtreeSets = {}
@@ -62,8 +62,6 @@ class Node(object):
                               self.__replaceSeparator,
                               self.__applyCompression,
                               self.__endOfPath,
-
-
                              )
             childNode.parent(self)
             self.children[child] = childNode
