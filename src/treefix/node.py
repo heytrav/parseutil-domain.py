@@ -154,9 +154,7 @@ class Node(object):
             else:
                 nextChar = None
 
-
             if  nextChar != None and ord(nextChar) - ord(currChar) == 1:
-
                 plusOneIndexes.append(index)
 
             elif len(plusOneIndexes) > 1:
