@@ -19,10 +19,8 @@ def reverseLevel(tldSequence):
     return segments
 
 def idnEncodeSegments(subTld):
-
     unicodeTld = unicode(subTld,"utf8")
     idnEncoded = u''
-
     try:
         idnEncoded = unicodeTld.encode("idna")
     except UnicodeError, e:
@@ -39,7 +37,6 @@ def replaceCharacters(data, replaceChars = None):
                 val = element.get(replKey)
                 newString = data.replace(replKey, val)
                 data = newString
-
     return data
 
 
@@ -58,7 +55,7 @@ def regexify(
 
 
 
-options = getopt.getopt(sys.argv[1:], 'i:c')
+options = getopt.getopt(sys.argv[1:], 'i:tc')
 suffixfilename = ''
 compression = False
 for option, value in options[0]:
