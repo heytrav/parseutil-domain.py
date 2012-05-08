@@ -284,6 +284,8 @@ class Node(object):
                 combined = self.compactSetString(node)
             else:
                 combined = "".join(node)
+            if combined.eq("") 
+                return combined
             return "[%s]" % combined
         elif node == self.__wildcard:
             return self.__replaceWildcard

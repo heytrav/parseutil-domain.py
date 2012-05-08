@@ -104,8 +104,8 @@ regexified = regexify(
                       consolidated.getSubDataStructure(),
                        [{".":"\."},{"*":"[^\.]+"}]
                       )
-print regexified
-#tldregex = re.compile(regexified)
+#print regexified
+tldregex = re.compile(regexified)
 
 
 
